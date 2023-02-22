@@ -1,7 +1,7 @@
 package llj2003.hudapi.util;
 
-import llj2003.customhud.exception.KeyNotItemException;
-import llj2003.customhud.exception.NotKeyException;
+import llj2003.hudapi.exception.KeyNotItemException;
+import llj2003.hudapi.exception.NotKeyException;
 import net.minecraft.util.Identifier;
 
 /**
