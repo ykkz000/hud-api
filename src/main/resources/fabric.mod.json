@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "hud-api",
+  "version": "${version}",
+  "name": "Hud Api",
+  "description": "Provide apis to draw huds in Minecraft",
+  "authors": [
+    "llj2003"
+  ],
+  "contact": {
+    "website": "https://gitee.com/llj2003/hud-api"
+  },
+  "license": "LGPL-3.0",
+  "icon": "assets/hud-api/icon.png",
+  "environment": "client",
+  "mixins": [
+    "hud-api.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.14",
+    "minecraft": "1.19.3"
+  }
+}
