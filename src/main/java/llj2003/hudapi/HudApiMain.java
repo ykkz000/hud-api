@@ -1,5 +1,15 @@
 package llj2003.hudapi;
 
-@net.fabricmc.api.Environment(net.fabricmc.api.EnvType.CLIENT)
+import llj2003.hudapi.gui.widget.Panel;
+import llj2003.hudapi.util.Region;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Environment(EnvType.CLIENT)
 public class HudApiMain {
+    public static final String MOD_ID = "hud-id";
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final Panel MAIN_PANEL = new Panel(new Region(0, 0, 0, 0));
 }
