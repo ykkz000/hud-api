@@ -70,5 +70,21 @@ publishing {
         // Notice: This block does NOT have the same function as the block in the top level.
         // The repositories here will be used for publishing your artifact, not for
         // retrieving dependencies.
+        maven {
+            credentials {
+                username = '63f57d9380326b6851e78e4a'
+                password = '0=UVGHgIa4lq'
+            }
+            name = 'snapshot'
+            url = 'https://packages.aliyun.com/maven/repository/2334497-snapshot-qUPlEb/'
+        }
+        maven {
+            credentials {
+                username '63f57d9380326b6851e78e4a'
+                password '0=UVGHgIa4lq'
+            }
+            name = 'release'
+            url 'https://packages.aliyun.com/maven/repository/2334497-release-xYw66J/'
+        }
     }
 }

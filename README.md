@@ -6,8 +6,18 @@ Change `repositories` block in `build.gradle` like this
 ```groovy
 repositories {
     maven {
-        name = "llj2003"
-        url = "https://gitee.com/llj2003/maven/raw/master/repository"
+        credentials {
+            username '63f608d25bcd108b0765c428'
+            password 'At(L(RH7g5sv'
+        }
+        url 'https://packages.aliyun.com/maven/repository/2334497-release-xYw66J/'
+    }
+    maven {
+        credentials {
+            username '63f608d25bcd108b0765c428'
+            password 'At(L(RH7g5sv'
+        }
+        url 'https://packages.aliyun.com/maven/repository/2334497-snapshot-qUPlEb/'
     }
 }
 ```
