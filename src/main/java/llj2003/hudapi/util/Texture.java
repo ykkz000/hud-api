@@ -63,29 +63,4 @@ public class Texture {
         this.size = size;
         return this;
     }
-
-    /**
-     * Create Texture from Item
-     *
-     * @param key Item key
-     * @return Texture
-     * @throws NotKeyException     key not a key
-     * @throws KeyNotItemException key not an item
-     */
-    public static Texture fromItem(String key) throws NotKeyException, KeyNotItemException {
-        return fromItem(key, new Dimension(16, 16));
-    }
-
-    /**
-     * Create Texture from Item
-     *
-     * @param key  Item key
-     * @param size Texture size
-     * @return Texture
-     * @throws NotKeyException     key not a key
-     * @throws KeyNotItemException key not an item
-     */
-    public static Texture fromItem(String key, Dimension size) throws NotKeyException, KeyNotItemException {
-        return new Texture(KeyTranslator.keyToItemTextureId(key), size);
-    }
 }

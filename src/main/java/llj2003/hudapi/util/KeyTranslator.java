@@ -62,23 +62,4 @@ public class KeyTranslator {
         }
         return keyToId(key);
     }
-
-    /**
-     * Translate a string to an Identifier which identifies a texture of an item
-     *
-     * @param key String
-     * @return Identifier
-     * @throws NotKeyException     The string is not a key
-     * @throws KeyNotItemException The string is not a key of an item
-     */
-    public static Identifier keyToItemTextureId(String key) throws NotKeyException, KeyNotItemException {
-        if (!isKey(key)) {
-            throw new NotKeyException(key);
-        }
-        if (!isItemKey(key)) {
-            throw new KeyNotItemException(key);
-        }
-        String[] splitKey = key.split("\\.", 3);
-        return new Identifier(splitKey[1], String.format("textures/item/%s.png", splitKey[2]));
-    }
 }

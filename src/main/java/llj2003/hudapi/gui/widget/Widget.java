@@ -8,6 +8,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 
 /**
@@ -19,6 +20,7 @@ import net.minecraft.client.util.math.MatrixStack;
 public abstract class Widget extends DrawableHelper {
     private Region region;
     private MinecraftClient client;
+    private ItemRenderer itemRenderer;
     private boolean visible;
 
     /**
@@ -29,6 +31,7 @@ public abstract class Widget extends DrawableHelper {
     public Widget(Region region) {
         this.region = region;
         this.client = null;
+        this.itemRenderer = null;
         this.visible = true;
     }
 
@@ -66,6 +69,24 @@ public abstract class Widget extends DrawableHelper {
      */
     public void setClient(MinecraftClient client) {
         this.client = client;
+    }
+
+    /**
+     * Get ItemRender
+     *
+     * @return ItemRender
+     */
+    public ItemRenderer getItemRenderer() {
+        return itemRenderer;
+    }
+
+    /**
+     * Set ItemRender
+     *
+     * @param itemRenderer ItemRender
+     */
+    public void setItemRenderer(ItemRenderer itemRenderer) {
+        this.itemRenderer = itemRenderer;
     }
 
     /**

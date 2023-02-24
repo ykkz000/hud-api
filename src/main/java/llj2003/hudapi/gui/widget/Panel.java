@@ -5,6 +5,7 @@ import llj2003.hudapi.util.Region;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.ArrayList;
@@ -64,6 +65,14 @@ public class Panel extends Widget implements Container<Widget> {
         super.setClient(client);
         for (Widget widget : widgetList) {
             widget.setClient(client);
+        }
+    }
+
+    @Override
+    public void setItemRenderer(ItemRenderer itemRenderer) {
+        super.setItemRenderer(itemRenderer);
+        for (Widget widget : widgetList) {
+            widget.setItemRenderer(itemRenderer);
         }
     }
 
