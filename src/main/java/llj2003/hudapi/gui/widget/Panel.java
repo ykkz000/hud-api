@@ -4,8 +4,6 @@ import llj2003.hudapi.gui.Color;
 import llj2003.hudapi.util.Region;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.ArrayList;
@@ -58,22 +56,6 @@ public class Panel extends Widget implements Container<Widget> {
      */
     public void setBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
-    }
-
-    @Override
-    public void setClient(MinecraftClient client) {
-        super.setClient(client);
-        for (Widget widget : widgetList) {
-            widget.setClient(client);
-        }
-    }
-
-    @Override
-    public void setItemRenderer(ItemRenderer itemRenderer) {
-        super.setItemRenderer(itemRenderer);
-        for (Widget widget : widgetList) {
-            widget.setItemRenderer(itemRenderer);
-        }
     }
 
     @Override

@@ -25,7 +25,8 @@ public abstract class InGameHudMixin {
     }
     @Inject(at = @At("TAIL"), method = "<init>(Lnet/minecraft/client/MinecraftClient;Lnet/minecraft/client/render/item/ItemRenderer;)V")
     public void init(MinecraftClient client, ItemRenderer itemRenderer, CallbackInfo info) {
-        HudApiMain.MAIN_PANEL.setClient(client);
-        HudApiMain.MAIN_PANEL.setItemRenderer(itemRenderer);
+        HudApiMain.client = client;
+        HudApiMain.textRenderer = client.textRenderer;
+        HudApiMain.itemRenderer = itemRenderer;
     }
 }

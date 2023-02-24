@@ -1,5 +1,7 @@
 package llj2003.hudapi.gui.widget;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import llj2003.hudapi.HudApiMain;
 import llj2003.hudapi.util.Region;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
@@ -51,7 +53,10 @@ public class ItemDisplay extends Widget {
         matrixStack.translate(getRegion().getX(), getRegion().getY(), 0);
         matrixStack.scale(getRegion().getX() / 8.0F, getRegion().getY() / 8.0F, 1.0F);
         if (itemStack != null && !itemStack.isEmpty()) {
-            getItemRenderer().renderGuiItemOverlay(getClient().textRenderer, itemStack, 0, 0);
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+            HudApiMain.itemRenderer.renderGuiItemOverlay(HudApiMain.textRenderer, itemStack, 0, 0);
+            RenderSystem.disableBlend();
         }
         matrixStack.pop();
     }

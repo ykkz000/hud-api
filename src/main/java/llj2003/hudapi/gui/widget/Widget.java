@@ -1,14 +1,13 @@
 package llj2003.hudapi.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import llj2003.hudapi.HudApiMain;
 import llj2003.hudapi.gui.Color;
 import llj2003.hudapi.util.Region;
 import llj2003.hudapi.util.Texture;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 
 /**
@@ -19,8 +18,6 @@ import net.minecraft.client.util.math.MatrixStack;
 @Environment(EnvType.CLIENT)
 public abstract class Widget extends DrawableHelper {
     private Region region;
-    private MinecraftClient client;
-    private ItemRenderer itemRenderer;
     private boolean visible;
 
     /**
@@ -30,8 +27,6 @@ public abstract class Widget extends DrawableHelper {
      */
     public Widget(Region region) {
         this.region = region;
-        this.client = null;
-        this.itemRenderer = null;
         this.visible = true;
     }
 
@@ -54,42 +49,6 @@ public abstract class Widget extends DrawableHelper {
     }
 
     /**
-     * Get current MinecraftClient
-     *
-     * @return Current MinecraftClient
-     */
-    protected MinecraftClient getClient() {
-        return client;
-    }
-
-    /**
-     * Set current MinecraftClient
-     *
-     * @param client Current MinecraftClient
-     */
-    public void setClient(MinecraftClient client) {
-        this.client = client;
-    }
-
-    /**
-     * Get ItemRender
-     *
-     * @return ItemRender
-     */
-    public ItemRenderer getItemRenderer() {
-        return itemRenderer;
-    }
-
-    /**
-     * Set ItemRender
-     *
-     * @param itemRenderer ItemRender
-     */
-    public void setItemRenderer(ItemRenderer itemRenderer) {
-        this.itemRenderer = itemRenderer;
-    }
-
-    /**
      * Draws a string in the specified region
      *
      * @param matrixStack MatrixStack
@@ -99,7 +58,7 @@ public abstract class Widget extends DrawableHelper {
      * @param y           Y coordinate
      */
     public void drawText(MatrixStack matrixStack, String text, Color color, int x, int y) {
-        getClient().textRenderer.draw(matrixStack, text, x, y, color.toInt());
+        HudApiMain.textRenderer.draw(matrixStack, text, x, y, color.toInt());
     }
 
     /**
@@ -112,7 +71,7 @@ public abstract class Widget extends DrawableHelper {
      * @param y           Y coordinate
      */
     public void drawTextWithShadow(MatrixStack matrixStack, String text, Color color, int x, int y) {
-        getClient().textRenderer.drawWithShadow(matrixStack, text, x, y, color.toInt());
+        HudApiMain.textRenderer.drawWithShadow(matrixStack, text, x, y, color.toInt());
     }
 
     /**
