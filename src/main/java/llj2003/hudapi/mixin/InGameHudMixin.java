@@ -28,5 +28,6 @@ public abstract class InGameHudMixin {
         HudApiMain.client = client;
         HudApiMain.textRenderer = client.textRenderer;
         HudApiMain.itemRenderer = itemRenderer;
+        HudApiMain.LOGGER.info("client refreshed");
     }
 }

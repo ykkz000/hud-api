@@ -3,9 +3,17 @@ package llj2003.hudapi.gui.widget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import llj2003.hudapi.HudApiMain;
 import llj2003.hudapi.util.Region;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+import org.joml.Matrix4f;
 
+/**
+ * ItemDisplay widget to display item
+ * Cautious: The region size != display size, display size = 16 * 16
+ *
+ * @author llj2003
+ */
 public class ItemDisplay extends Widget {
     private ItemStack itemStack;
 
@@ -49,15 +57,13 @@ public class ItemDisplay extends Widget {
 
     @Override
     public void render(MatrixStack matrixStack) {
-        matrixStack.push();
-        matrixStack.translate(getRegion().getX(), getRegion().getY(), 0);
-        matrixStack.scale(getRegion().getX() / 8.0F, getRegion().getY() / 8.0F, 1.0F);
+        Matrix4f matrixTranslate = matrixStack.peek().getPositionMatrix();
+        float dx = matrixTranslate.get(3, 0);
+        float dy = matrixTranslate.get(3, 1);
         if (itemStack != null && !itemStack.isEmpty()) {
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-            HudApiMain.itemRenderer.renderGuiItemOverlay(HudApiMain.textRenderer, itemStack, 0, 0);
-            RenderSystem.disableBlend();
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.setShader(GameRenderer::getPositionTexProgram);
+            HudApiMain.itemRenderer.renderGuiItemIcon(itemStack, (int) dx + getRegion().getX(), (int) dy + getRegion().getY());
         }
-        matrixStack.pop();
     }
 }
