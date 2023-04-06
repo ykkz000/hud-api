@@ -1,5 +1,10 @@
 package llj2003.hudapi.util;
 
+/**
+ * Describe a dimension
+ *
+ * @author llj2003
+ */
 public class Dimension {
     private int width;
     private int height;

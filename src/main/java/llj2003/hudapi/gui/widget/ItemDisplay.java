@@ -63,7 +63,7 @@ public class ItemDisplay extends Widget {
         if (itemStack != null && !itemStack.isEmpty()) {
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-            HudApiMain.itemRenderer.renderGuiItemIcon(itemStack, (int) dx + getRegion().getX(), (int) dy + getRegion().getY());
+            drawGuiItem(matrixStack, itemStack, (int) dx + getRegion().getX(), (int) dy + getRegion().getY());
         }
     }
 }

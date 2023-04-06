@@ -1,14 +1,17 @@
 package llj2003.hudapi.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import llj2003.hudapi.HudApiMain;
 import llj2003.hudapi.gui.Color;
 import llj2003.hudapi.util.Region;
 import llj2003.hudapi.util.Texture;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemStack;
 
 /**
  * Basic class of all drawable widgets.
@@ -58,7 +61,9 @@ public abstract class Widget extends DrawableHelper {
      * @param y           Y coordinate
      */
     public void drawText(MatrixStack matrixStack, String text, Color color, int x, int y) {
-        HudApiMain.textRenderer.draw(matrixStack, text, x, y, color.toInt());
+        if (getTextRenderer() != null) {
+            getTextRenderer().draw(matrixStack, text, x, y, color.toInt());
+        }
     }
 
     /**
@@ -71,15 +76,17 @@ public abstract class Widget extends DrawableHelper {
      * @param y           Y coordinate
      */
     public void drawTextWithShadow(MatrixStack matrixStack, String text, Color color, int x, int y) {
-        HudApiMain.textRenderer.drawWithShadow(matrixStack, text, x, y, color.toInt());
+        if (getTextRenderer() != null) {
+            getTextRenderer().drawWithShadow(matrixStack, text, x, y, color.toInt());
+        }
     }
 
     /**
      * Draws texture in the specified region
      *
-     * @param matrixStack   MatrixStack
-     * @param texture       Texture
-     * @param drawRegion    Region to draw
+     * @param matrixStack MatrixStack
+     * @param texture     Texture
+     * @param drawRegion  Region to draw
      */
     public void drawTexture(MatrixStack matrixStack, Texture texture, Region drawRegion) {
         drawTexture(matrixStack, texture, Color.fromInt(-1), drawRegion, texture.getSize().toRegion());
@@ -88,10 +95,10 @@ public abstract class Widget extends DrawableHelper {
     /**
      * Draws texture in the specified region
      *
-     * @param matrixStack   MatrixStack
-     * @param texture       Texture
-     * @param color         Color
-     * @param drawRegion    Region to draw
+     * @param matrixStack MatrixStack
+     * @param texture     Texture
+     * @param color       Color
+     * @param drawRegion  Region to draw
      */
     public void drawTexture(MatrixStack matrixStack, Texture texture, Color color, Region drawRegion) {
         drawTexture(matrixStack, texture, color, drawRegion, texture.getSize().toRegion());
@@ -127,12 +134,18 @@ public abstract class Widget extends DrawableHelper {
                 texture.getSize().getWidth(), texture.getSize().getHeight());
     }
 
+    public void drawGuiItem(MatrixStack matrixStack, ItemStack itemStack, int x, int y) {
+        if (getItemRenderer() != null) {
+            getItemRenderer().renderGuiItemIcon(matrixStack, itemStack, x, y);
+        }
+    }
+
     /**
      * Fill color in the specified region
      *
-     * @param matrixStack   MatrixStack
-     * @param color         Color
-     * @param drawRegion    Region to draw
+     * @param matrixStack MatrixStack
+     * @param color       Color
+     * @param drawRegion  Region to draw
      */
     public void fill(MatrixStack matrixStack, Color color, Region drawRegion) {
         fill(matrixStack, drawRegion.getX(), drawRegion.getY(),
@@ -171,6 +184,7 @@ public abstract class Widget extends DrawableHelper {
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
+
     /**
      * Defines how to render the widget<br/>
      * Cautious: The X and Y coordinates are relative to the parent widget
@@ -178,4 +192,22 @@ public abstract class Widget extends DrawableHelper {
      * @param matrixStack matrixStack
      */
     public abstract void render(MatrixStack matrixStack);
+
+    /**
+     * Get text renderer
+     *
+     * @return TextRenderer instance
+     */
+    public static TextRenderer getTextRenderer() {
+        return MinecraftClient.getInstance() == null ? null : MinecraftClient.getInstance().textRenderer;
+    }
+
+    /**
+     * Get item renderer
+     *
+     * @return ItemRenderer instance
+     */
+    public static ItemRenderer getItemRenderer() {
+        return MinecraftClient.getInstance() == null ? null : MinecraftClient.getInstance().getItemRenderer();
+    }
 }
