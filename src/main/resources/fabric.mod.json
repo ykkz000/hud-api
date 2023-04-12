@@ -5,10 +5,10 @@
   "name": "Hud Api",
   "description": "Provide apis to draw huds in Minecraft",
   "authors": [
-    "llj2003"
+    "ykkz000"
   ],
   "contact": {
-    "website": "https://gitee.com/llj2003/hud-api"
+    "website": "https://gitee.com/ykkz000/hud-api"
   },
   "license": "LGPL-3.0",
   "icon": "assets/hud-api/icon.png",

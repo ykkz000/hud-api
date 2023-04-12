@@ -28,6 +28,6 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "llj2003.hudapi:hud-api:1.0-SNAPSHOT"
+    modImplementation "ykkz000.hudapi:hud-api:1.0-SNAPSHOT"
 }
 ```
