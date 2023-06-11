@@ -1,9 +1,9 @@
 package ykkz000.hudapi.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.gui.DrawContext;
 import ykkz000.hudapi.util.Region;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -54,11 +54,11 @@ public class ItemDisplay extends Widget {
     }
 
     @Override
-    public void render(MatrixStack matrixStack) {
+    public void render(DrawContext context) {
         if (itemStack != null && !itemStack.isEmpty()) {
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-            drawGuiItem(matrixStack, itemStack, getRegion().getX(), getRegion().getY());
+            drawGuiItem(context, itemStack, getRegion().getX(), getRegion().getY());
         }
     }
 }

@@ -1,10 +1,10 @@
 package ykkz000.hudapi.gui.widget;
 
+import net.minecraft.client.gui.DrawContext;
 import ykkz000.hudapi.util.Region;
 import ykkz000.hudapi.util.Texture;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.util.math.MatrixStack;
 
 /**
  * Image widget to display texture
@@ -46,9 +46,9 @@ public class Image extends Widget {
     }
 
     @Override
-    public void render(MatrixStack matrixStack) {
+    public void render(DrawContext context) {
         if (texture != null) {
-            drawTexture(matrixStack, texture, getRegion());
+            drawTexture(context, texture, getRegion());
         }
     }
 }

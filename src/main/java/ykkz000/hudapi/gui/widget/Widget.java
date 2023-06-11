@@ -1,17 +1,15 @@
 package ykkz000.hudapi.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import ykkz000.hudapi.gui.Color;
-import ykkz000.hudapi.util.Region;
-import ykkz000.hudapi.util.Texture;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.item.ItemStack;
+import ykkz000.hudapi.gui.Color;
+import ykkz000.hudapi.util.Region;
+import ykkz000.hudapi.util.Texture;
 
 /**
  * Basic class of all drawable widgets.
@@ -19,7 +17,7 @@ import net.minecraft.item.ItemStack;
  * @author ykkz000
  */
 @Environment(EnvType.CLIENT)
-public abstract class Widget extends DrawableHelper {
+public abstract class Widget {
     private Region region;
     private boolean visible;
 
@@ -54,101 +52,90 @@ public abstract class Widget extends DrawableHelper {
     /**
      * Draws a string in the specified region
      *
-     * @param matrixStack MatrixStack
-     * @param text        String
-     * @param color       Color of the string
-     * @param x           X coordinate
-     * @param y           Y coordinate
+     * @param text  String
+     * @param color Color of the string
+     * @param x     X coordinate
+     * @param y     Y coordinate
      */
-    public void drawText(MatrixStack matrixStack, String text, Color color, int x, int y) {
+    public void drawText(DrawContext drawContext, String text, Color color, int x, int y, boolean shadow) {
         if (getTextRenderer() != null) {
-            getTextRenderer().draw(matrixStack, text, x, y, color.toInt());
-        }
-    }
-
-    /**
-     * Draws a string with shadow in the specified region
-     *
-     * @param matrixStack MatrixStack
-     * @param text        String
-     * @param color       Color of the string
-     * @param x           X coordinate
-     * @param y           Y coordinate
-     */
-    public void drawTextWithShadow(MatrixStack matrixStack, String text, Color color, int x, int y) {
-        if (getTextRenderer() != null) {
-            getTextRenderer().drawWithShadow(matrixStack, text, x, y, color.toInt());
+            drawContext.drawText(getTextRenderer(), text, x, y, color.toInt(), shadow);
         }
     }
 
     /**
      * Draws texture in the specified region
      *
-     * @param matrixStack MatrixStack
-     * @param texture     Texture
-     * @param drawRegion  Region to draw
+     * @param context    Draw context
+     * @param texture    Texture
+     * @param drawRegion Region to draw
      */
-    public void drawTexture(MatrixStack matrixStack, Texture texture, Region drawRegion) {
-        drawTexture(matrixStack, texture, Color.fromInt(-1), drawRegion, texture.getSize().toRegion());
+    public void drawTexture(DrawContext context, Texture texture, Region drawRegion) {
+        drawTexture(context, texture, Color.fromInt(-1), drawRegion, texture.getSize().toRegion());
     }
 
     /**
      * Draws texture in the specified region
      *
-     * @param matrixStack MatrixStack
-     * @param texture     Texture
-     * @param color       Color
-     * @param drawRegion  Region to draw
+     * @param context    Draw context
+     * @param texture    Texture
+     * @param color      Color
+     * @param drawRegion Region to draw
      */
-    public void drawTexture(MatrixStack matrixStack, Texture texture, Color color, Region drawRegion) {
-        drawTexture(matrixStack, texture, color, drawRegion, texture.getSize().toRegion());
+    public void drawTexture(DrawContext context, Texture texture, Color color, Region drawRegion) {
+        drawTexture(context, texture, color, drawRegion, texture.getSize().toRegion());
     }
 
     /**
      * Draws texture in the specified region
      *
-     * @param matrixStack   MatrixStack
+     * @param context       Draw context
      * @param texture       Texture
      * @param drawRegion    Region to draw
      * @param textureRegion Region of the texture
      */
-    public void drawTexture(MatrixStack matrixStack, Texture texture, Region drawRegion, Region textureRegion) {
-        drawTexture(matrixStack, texture, Color.fromInt(-1), drawRegion, textureRegion);
+    public void drawTexture(DrawContext context, Texture texture, Region drawRegion, Region textureRegion) {
+        drawTexture(context, texture, Color.fromInt(-1), drawRegion, textureRegion);
     }
 
     /**
      * Draws texture in the specified region
      *
-     * @param matrixStack   MatrixStack
+     * @param context       Draw context
      * @param texture       Texture
      * @param color         Color
      * @param drawRegion    Region to draw
      * @param textureRegion Region of the texture
      */
-    public void drawTexture(MatrixStack matrixStack, Texture texture, Color color, Region drawRegion, Region textureRegion) {
+    public void drawTexture(DrawContext context, Texture texture, Color color, Region drawRegion, Region textureRegion) {
         RenderSystem.setShaderColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
-        RenderSystem.setShaderTexture(0, texture.getId());
-        drawTexture(matrixStack,
+        context.drawTexture(texture.getId(),
                 drawRegion.getX(), drawRegion.getY(), drawRegion.getWidth(), drawRegion.getHeight(),
                 textureRegion.getX(), textureRegion.getY(), textureRegion.getWidth(), textureRegion.getHeight(),
                 texture.getSize().getWidth(), texture.getSize().getHeight());
     }
 
-    public void drawGuiItem(MatrixStack matrixStack, ItemStack itemStack, int x, int y) {
-        if (getItemRenderer() != null) {
-            getItemRenderer().renderGuiItemIcon(matrixStack, itemStack, x, y);
-        }
+    /**
+     * Draw Gui Items at the specified position
+     *
+     * @param context Draw context
+     * @param item    Item
+     * @param x       X position
+     * @param y       Y position
+     */
+    public void drawGuiItem(DrawContext context, ItemStack item, int x, int y) {
+        context.drawItem(item, x, y);
     }
 
     /**
      * Fill color in the specified region
      *
-     * @param matrixStack MatrixStack
-     * @param color       Color
-     * @param drawRegion  Region to draw
+     * @param context    Draw context
+     * @param color      Color
+     * @param drawRegion Region to draw
      */
-    public void fill(MatrixStack matrixStack, Color color, Region drawRegion) {
-        fill(matrixStack, drawRegion.getX(), drawRegion.getY(),
+    public void fill(DrawContext context, Color color, Region drawRegion) {
+        context.fill(drawRegion.getX(), drawRegion.getY(),
                 drawRegion.getX() + drawRegion.getWidth(),
                 drawRegion.getY() + drawRegion.getHeight(),
                 color.toInt());
@@ -175,12 +162,12 @@ public abstract class Widget extends DrawableHelper {
     /**
      * If visible == true, this function will call render
      *
-     * @param matrixStack matrixStack
+     * @param context Draw context
      */
-    public void exec(MatrixStack matrixStack) {
+    public void exec(DrawContext context) {
         if (visible) {
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            render(matrixStack);
+            render(context);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
@@ -189,9 +176,9 @@ public abstract class Widget extends DrawableHelper {
      * Defines how to render the widget<br/>
      * Cautious: The X and Y coordinates are relative to the parent widget
      *
-     * @param matrixStack matrixStack
+     * @param context Draw context
      */
-    public abstract void render(MatrixStack matrixStack);
+    public abstract void render(DrawContext context);
 
     /**
      * Get text renderer
@@ -200,14 +187,5 @@ public abstract class Widget extends DrawableHelper {
      */
     public static TextRenderer getTextRenderer() {
         return MinecraftClient.getInstance() == null ? null : MinecraftClient.getInstance().textRenderer;
-    }
-
-    /**
-     * Get item renderer
-     *
-     * @return ItemRenderer instance
-     */
-    public static ItemRenderer getItemRenderer() {
-        return MinecraftClient.getInstance() == null ? null : MinecraftClient.getInstance().getItemRenderer();
     }
 }

@@ -1,10 +1,10 @@
 package ykkz000.hudapi.gui.widget;
 
+import net.minecraft.client.gui.DrawContext;
 import ykkz000.hudapi.gui.Color;
 import ykkz000.hudapi.util.Region;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.util.math.MatrixStack;
 
 /**
  * Progress bar widget to display progress bar
@@ -85,10 +85,10 @@ public class ProgressBar extends Widget {
     }
 
     @Override
-    public void render(MatrixStack matrixStack) {
-        fill(matrixStack, backColor, getRegion());
+    public void render(DrawContext context) {
+        fill(context, backColor, getRegion());
         Region frontRegion = getRegion().copy();
         frontRegion.setWidth((int)(frontRegion.getWidth() * progress));
-        fill(matrixStack, frontColor, frontRegion);
+        fill(context, frontColor, frontRegion);
     }
 }

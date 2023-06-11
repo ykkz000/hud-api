@@ -1,10 +1,10 @@
 package ykkz000.hudapi.gui.widget;
 
+import net.minecraft.client.gui.DrawContext;
 import ykkz000.hudapi.gui.Color;
 import ykkz000.hudapi.util.Region;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.util.math.MatrixStack;
 
 /**
  * Label widget to display string
@@ -64,7 +64,7 @@ public class Label extends Widget {
     }
 
     @Override
-    public void render(MatrixStack matrixStack) {
-        drawTextWithShadow(matrixStack, string, fontColor, getRegion().getX(), getRegion().getY());
+    public void render(DrawContext context) {
+        drawText(context, string, fontColor, getRegion().getX(), getRegion().getY(), true);
     }
 }
