@@ -11,6 +11,7 @@ import net.fabricmc.api.Environment;
  *
  * @author ykkz000
  */
+@SuppressWarnings("unused")
 @Environment(EnvType.CLIENT)
 public class Label extends Widget {
     private Color fontColor = Color.fromInt(0xFFFFFFFF);

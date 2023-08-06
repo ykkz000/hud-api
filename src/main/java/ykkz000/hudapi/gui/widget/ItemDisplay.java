@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
  *
  * @author ykkz000
  */
+@SuppressWarnings("unused")
 public class ItemDisplay extends Widget {
     private ItemStack itemStack;
 

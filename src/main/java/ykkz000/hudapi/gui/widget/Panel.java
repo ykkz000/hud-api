@@ -15,6 +15,7 @@ import java.util.List;
  *
  * @author ykkz000
  */
+@SuppressWarnings("unused")
 @Environment(EnvType.CLIENT)
 public class Panel extends Widget implements Container<Widget> {
     protected List<Widget> widgetList = new ArrayList<>();

@@ -11,6 +11,7 @@ import net.fabricmc.api.Environment;
  *
  * @author ykkz000
  */
+@SuppressWarnings("unused")
 @Environment(EnvType.CLIENT)
 public class Image extends Widget {
     private Texture texture;

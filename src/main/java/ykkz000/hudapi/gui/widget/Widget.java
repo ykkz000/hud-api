@@ -16,6 +16,7 @@ import ykkz000.hudapi.util.Texture;
  *
  * @author ykkz000
  */
+@SuppressWarnings("unused")
 @Environment(EnvType.CLIENT)
 public abstract class Widget {
     private Region region;

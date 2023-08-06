@@ -11,6 +11,7 @@ import net.fabricmc.api.Environment;
  *
  * @author ykkz000
  */
+@SuppressWarnings("unused")
 @Environment(EnvType.CLIENT)
 public class ProgressBar extends Widget {
     private Color frontColor;
