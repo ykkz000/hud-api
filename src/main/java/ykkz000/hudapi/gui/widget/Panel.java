@@ -4,6 +4,7 @@ import lombok.*;
 import net.minecraft.client.gui.DrawContext;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import ykkz000.hudapi.gui.layout.Layout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +24,18 @@ public class Panel extends Widget {
      * Children list of this panel
      */
     protected List<Widget> children = new ArrayList<>();
+    /**
+     * Layout for child widgets in this panel
+     */
+    protected Layout layout = null;
 
     @Override
     public void render(DrawContext context) {
         context.getMatrices().push();
         context.getMatrices().translate(x, y, 0);
+        if (layout != null) {
+            layout.layout(children, this);
+        }
         for (Widget widget : children) {
             widget.renderWidget(context);
         }

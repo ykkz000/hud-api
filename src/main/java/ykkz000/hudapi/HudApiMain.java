@@ -4,7 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import ykkz000.hudapi.gui.widget.Panel;
+import ykkz000.hudapi.gui.Frame;
 import ykkz000.hudapi.mixin.InGameHudMixin;
 
 import java.util.ArrayList;
@@ -21,15 +21,15 @@ public final class HudApiMain {
     /**
      * The basic frames, you should allocate a new frame by calling {@link HudApiMain#allocateFrame()} and add your own widget into the frame
      */
-    private static final List<Panel> FRAMES = new ArrayList<>();
+    private static final List<Frame> FRAMES = new ArrayList<>();
 
     /**
      * Allocate a frame. Mods should not use {@link HudApiMain#FRAMES} field directly, please use this method.
      *
      * @return A new frame
      */
-    public static Panel allocateFrame() {
-        Panel frame = new Panel();
+    public static Frame allocateFrame() {
+        Frame frame = new Frame();
         FRAMES.add(frame);
         return frame;
     }
@@ -40,8 +40,8 @@ public final class HudApiMain {
      * @param context DrawContext
      */
     public static void renderAll(DrawContext context) {
-        for (Panel frame : HudApiMain.FRAMES) {
-            frame.renderWidget(context);
+        for (Frame frame : HudApiMain.FRAMES) {
+            frame.render(context);
         }
     }
 }
