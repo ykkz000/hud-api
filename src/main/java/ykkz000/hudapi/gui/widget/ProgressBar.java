@@ -1,8 +1,10 @@
 package ykkz000.hudapi.gui.widget;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import net.minecraft.client.gui.DrawContext;
-import ykkz000.hudapi.gui.Color;
-import ykkz000.hudapi.util.Region;
+import ykkz000.hudapi.util.RGBColor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
@@ -13,83 +15,30 @@ import net.fabricmc.api.Environment;
  */
 @SuppressWarnings("unused")
 @Environment(EnvType.CLIENT)
+@Getter
+@Setter
+@NoArgsConstructor
 public class ProgressBar extends Widget {
-    private Color frontColor;
-    private Color backColor;
-    private float progress;
+    /**
+     * The color of the bar
+     */
+    private RGBColor barColor = RGBColor.fromRGBA(0xFFFFFFFF);
+    /**
+     * The progress of the bar
+     */
+    private double progress = 0;
 
     /**
-     * Initialize a ColorProgressBar
-     *
-     * @param region     Region of the widget
-     * @param frontColor Front color
-     * @param backColor  Back color
+     * Create ProgressBar with specified progress
+     * @param progress The progress of the bar
      */
-    public ProgressBar(Region region, Color frontColor, Color backColor, float progress) {
-        super(region);
-        this.frontColor = frontColor;
-        this.backColor = backColor;
+    public ProgressBar(double progress) {
+        super();
         this.progress = progress;
-    }
-
-    /**
-     * Get front color
-     *
-     * @return Front color
-     */
-    public Color getFrontColor() {
-        return frontColor;
-    }
-
-    /**
-     * Set front color
-     * @param frontColor Front color
-     */
-    public void setFrontColor(Color frontColor) {
-        this.frontColor = frontColor;
-    }
-
-    /**
-     * Get Back color
-     *
-     * @return Back color
-     */
-    public Color getBackColor() {
-        return backColor;
-    }
-
-    /**
-     * Set back color
-     * @param backColor Back color
-     */
-    public void setBackColor(Color backColor) {
-        this.backColor = backColor;
-    }
-
-    /**
-     * Get progress
-     *
-     * @return Progress
-     */
-    public float getProgress() {
-        return progress;
-    }
-
-    /**
-     * Set Progress
-     *
-     * @param progress Progress
-     * @implNote In fact, progress=min(max(progress,0.0F),1.0F)
-     */
-    public void setProgress(float progress) {
-        this.progress = Math.min(Math.max(progress, 0.0F), 1.0F);
     }
 
     @Override
     public void render(DrawContext context) {
-        fill(context, backColor, getRegion());
-        Region frontRegion = getRegion().copy();
-        frontRegion.setWidth((int)(frontRegion.getWidth() * progress));
-        fill(context, frontColor, frontRegion);
+        context.fill(x, y, (int) (x + width * progress), y + height, barColor.toRGBA());
     }
 }

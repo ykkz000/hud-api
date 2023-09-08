@@ -1,13 +1,11 @@
 package ykkz000.hudapi.gui.widget;
 
+import lombok.*;
 import net.minecraft.client.gui.DrawContext;
-import ykkz000.hudapi.gui.Color;
-import ykkz000.hudapi.util.Region;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -17,87 +15,70 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Environment(EnvType.CLIENT)
-public class Panel extends Widget implements Container<Widget> {
-    protected List<Widget> widgetList = new ArrayList<>();
-    protected Color backgroundColor;
-
+@Getter
+@Setter
+@NoArgsConstructor
+public class Panel extends Widget {
     /**
-     * Initialize a panel(default:null, Color.fromInt(-1))
-     *
-     * @param region Region of the widget
+     * Children list of this panel
      */
-    public Panel(Region region) {
-        this(region, Color.fromInt(0));
-    }
-
-    /**
-     * Initialize a panel
-     *
-     * @param region            Region of the widget
-     * @param backgroundColor   Color
-     */
-    public Panel(Region region, Color backgroundColor) {
-        super(region);
-        this.backgroundColor = backgroundColor;
-    }
-
-    /**
-     * Get background color
-     *
-     * @return Background color
-     */
-    public Color getBackgroundColor() {
-        return backgroundColor;
-    }
-
-    /**
-     * Set background color
-     *
-     * @param backgroundColor Color
-     */
-    public void setBackgroundColor(Color backgroundColor) {
-        this.backgroundColor = backgroundColor;
-    }
+    protected List<Widget> children = new ArrayList<>();
 
     @Override
     public void render(DrawContext context) {
-        fill(context, backgroundColor, getRegion());
         context.getMatrices().push();
-        context.getMatrices().translate(getRegion().getX(), getRegion().getY(), 0);
-        //Render children
-        for (Widget widget : widgetList) {
-            widget.exec(context);
+        context.getMatrices().translate(x, y, 0);
+        for (Widget widget : children) {
+            widget.renderWidget(context);
         }
         context.getMatrices().pop();
     }
 
-    @Override
+    /**
+     * Add a widget to the panel
+     *
+     * @param widget Widget to be added
+     */
     public void add(Widget widget) {
-        widgetList.add(widget);
+        children.add(widget);
     }
 
-    @Override
+    /**
+     * Get widget count of this panel
+     *
+     * @return Widget count of this panel
+     */
     public int size() {
-        return widgetList.size();
+        return children.size();
     }
 
-    @Override
-    public Widget get(int i) {
-        return widgetList.get(i);
+    /**
+     * Get a specific child widget
+     *
+     * @param index Index of the child widget
+     * @return Widget at specified index
+     */
+    public Widget get(int index) {
+        return children.get(index);
     }
 
-    @Override
-    public void remove(int i) {
-        widgetList.remove(i);
+    /**
+     * Remove a specific child widget
+     *
+     * @param index Index of the child widget
+     * @see Panel#remove(Widget)
+     */
+    public void remove(int index) {
+        children.remove(index);
     }
 
-    @Override
-    public void remove(Widget t) {
-        widgetList.remove(t);
-    }
-
-    @Override
-    public Iterator<Widget> iterator() {
-        return widgetList.iterator();
+    /**
+     * Remove a child widget<br/>
+     *
+     * @param widget Widget to be removed
+     * @see Panel#remove(int)
+     */
+    public void remove(Widget widget) {
+        children.remove(widget);
     }
 }

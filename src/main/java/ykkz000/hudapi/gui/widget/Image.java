@@ -1,10 +1,12 @@
 package ykkz000.hudapi.gui.widget;
 
-import net.minecraft.client.gui.DrawContext;
-import ykkz000.hudapi.util.Region;
-import ykkz000.hudapi.util.Texture;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.util.Identifier;
 
 /**
  * Image widget to display texture
@@ -13,43 +15,86 @@ import net.fabricmc.api.Environment;
  */
 @SuppressWarnings("unused")
 @Environment(EnvType.CLIENT)
+@Getter
+@Setter
+@NoArgsConstructor
 public class Image extends Widget {
-    private Texture texture;
+    /**
+     * The id of the texture
+     */
+    private Identifier textureId = null;
+    /**
+     * The X coordination of the start position in the texture
+     */
+    private int textureX = -1;
+    /**
+     * The Y coordination of the start position in the texture
+     */
+    private int textureY = -1;
+    /**
+     * The width of the area to draw in the texture
+     */
+    private int textureWidth = -1;
+    /**
+     * The height of the area to draw in the texture
+     */
+    private int textureHeight = -1;
 
     /**
-     * Initialization
+     * Create Image with specified textureId
      *
-     * @param region  Region of the Widget
-     * @param texture Texture
-     * @author ykkz000
+     * @param textureId TextureId
      */
-    public Image(Region region, Texture texture) {
-        super(region);
-        this.texture = texture;
+    public Image(Identifier textureId) {
+        super();
+        this.textureId = textureId;
     }
 
     /**
-     * Get texture
+     * Create Image with specified textureId and start position
      *
-     * @return Texture
+     * @param textureId TextureId
+     * @param textureX  The X coordination of the start position in the texture
+     * @param textureY  The Y coordination of the start position in the texture
      */
-    public Texture getTexture() {
-        return texture;
+    public Image(Identifier textureId, int textureX, int textureY) {
+        super();
+        this.textureId = textureId;
+        this.textureX = textureX;
+        this.textureY = textureY;
     }
 
     /**
-     * Set texture
+     * Create Image with specified textureId, start position and size
      *
-     * @param texture Texture
+     * @param textureId     TextureId
+     * @param textureX      The X coordination of the start position in the texture
+     * @param textureY      The Y coordination of the start position in the texture
+     * @param textureWidth  The width of the area to draw in the texture
+     * @param textureHeight The height of the area to draw in the texture
      */
-    public void setTexture(Texture texture) {
-        this.texture = texture;
+    public Image(Identifier textureId, int textureX, int textureY, int textureWidth, int textureHeight) {
+        super();
+        this.textureId = textureId;
+        this.textureX = textureX;
+        this.textureY = textureY;
+        this.textureWidth = textureWidth;
+        this.textureHeight = textureHeight;
     }
 
     @Override
     public void render(DrawContext context) {
-        if (texture != null) {
-            drawTexture(context, texture, getRegion());
+        if (textureId == null) {
+            return;
         }
+        if (textureX == -1 && textureY == -1) {
+            context.drawTexture(textureId, x, y, 0, 0, width, height);
+            return;
+        }
+        if (textureWidth == -1 && textureHeight == -1) {
+            context.drawTexture(textureId, x, y, textureX, textureY, width, height);
+            return;
+        }
+        context.drawTexture(textureId, x, y, textureX, textureY, width, height, textureWidth, textureHeight);
     }
 }

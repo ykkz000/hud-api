@@ -1,8 +1,10 @@
 package ykkz000.hudapi.gui.widget;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import net.minecraft.client.gui.DrawContext;
-import ykkz000.hudapi.gui.Color;
-import ykkz000.hudapi.util.Region;
+import ykkz000.hudapi.util.RGBColor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
@@ -13,59 +15,31 @@ import net.fabricmc.api.Environment;
  */
 @SuppressWarnings("unused")
 @Environment(EnvType.CLIENT)
+@Getter
+@Setter
+@NoArgsConstructor
 public class Label extends Widget {
-    private Color fontColor = Color.fromInt(0xFFFFFFFF);
-    private String string;
+    /**
+     * The color of the font
+     */
+    private RGBColor fontColor = RGBColor.fromRGBA(0xFFFFFFFF);
+    /**
+     * The text of the label
+     */
+    private String text = "";
 
     /**
-     * Initialize a label
+     * Create Label with specified text
      *
-     * @param region Region of the widget
-     * @param string String to display
+     * @param text The text of the label
      */
-    public Label(Region region, String string) {
-        super(region);
-        this.string = string;
-    }
-
-    /**
-     * Get font color
-     *
-     * @return Font color
-     */
-    public Color getFontColor() {
-        return fontColor;
-    }
-
-    /**
-     * Set font color
-     *
-     * @param fontColor Color
-     */
-    public void setFontColor(Color fontColor) {
-        this.fontColor = fontColor;
-    }
-
-    /**
-     * Get string
-     *
-     * @return String
-     */
-    public String getString() {
-        return string;
-    }
-
-    /**
-     * Set string
-     *
-     * @param string String
-     */
-    public void setString(String string) {
-        this.string = string;
+    public Label(String text) {
+        super();
+        this.text = text;
     }
 
     @Override
     public void render(DrawContext context) {
-        drawText(context, string, fontColor, getRegion().getX(), getRegion().getY(), true);
+        Widget.getTextRenderer().map(textRenderer -> context.drawText(textRenderer, text, x, y, fontColor.toRGBA(), true));
     }
 }

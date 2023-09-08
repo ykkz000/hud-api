@@ -15,7 +15,7 @@ repositories {
     maven {
         credentials {
             username '63f608d25bcd108b0765c428'
-            password 'At(L(RH7g5sv'
+            password 'At(L (RH7g5sv'
         }
         url 'https://packages.aliyun.com/maven/repository/2334497-snapshot-qUPlEb/'
     }

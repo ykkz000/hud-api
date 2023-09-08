@@ -1,15 +1,16 @@
 package ykkz000.hudapi.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.item.ItemStack;
-import ykkz000.hudapi.gui.Color;
-import ykkz000.hudapi.util.Region;
-import ykkz000.hudapi.util.Texture;
+import ykkz000.hudapi.util.RGBColor;
+
+import java.util.Optional;
 
 /**
  * Basic class of all drawable widgets.
@@ -18,156 +19,43 @@ import ykkz000.hudapi.util.Texture;
  */
 @SuppressWarnings("unused")
 @Environment(EnvType.CLIENT)
+@Data
+@NoArgsConstructor
 public abstract class Widget {
-    private Region region;
-    private boolean visible;
-
     /**
-     * Initialization
-     *
-     * @param region Region of the Widget
+     * The X coordinate of the upper-left corner of the widget
      */
-    public Widget(Region region) {
-        this.region = region;
-        this.visible = true;
-    }
-
+    protected int x = 0;
     /**
-     * Get the region of the widget
-     *
-     * @return Region of the widget
+     * The Y coordinate of the upper-left corner of the widget
      */
-    public Region getRegion() {
-        return region;
-    }
-
+    protected int y = 0;
     /**
-     * Set the region of the widget
-     *
-     * @param region Region of the widget
+     * The width of the widget
      */
-    public void setRegion(Region region) {
-        this.region = region;
-    }
-
+    protected int width = 0;
     /**
-     * Draws a string in the specified region
-     *
-     * @param text  String
-     * @param color Color of the string
-     * @param x     X coordinate
-     * @param y     Y coordinate
+     * The height of the widget
      */
-    public void drawText(DrawContext drawContext, String text, Color color, int x, int y, boolean shadow) {
-        if (getTextRenderer() != null) {
-            drawContext.drawText(getTextRenderer(), text, x, y, color.toInt(), shadow);
-        }
-    }
-
+    protected int height = 0;
     /**
-     * Draws texture in the specified region
-     *
-     * @param context    Draw context
-     * @param texture    Texture
-     * @param drawRegion Region to draw
+     * The visibility of the widget
      */
-    public void drawTexture(DrawContext context, Texture texture, Region drawRegion) {
-        drawTexture(context, texture, Color.fromInt(-1), drawRegion, texture.getSize().toRegion());
-    }
-
+    protected boolean visible = true;
     /**
-     * Draws texture in the specified region
-     *
-     * @param context    Draw context
-     * @param texture    Texture
-     * @param color      Color
-     * @param drawRegion Region to draw
+     * The background color of the widget
      */
-    public void drawTexture(DrawContext context, Texture texture, Color color, Region drawRegion) {
-        drawTexture(context, texture, color, drawRegion, texture.getSize().toRegion());
-    }
-
-    /**
-     * Draws texture in the specified region
-     *
-     * @param context       Draw context
-     * @param texture       Texture
-     * @param drawRegion    Region to draw
-     * @param textureRegion Region of the texture
-     */
-    public void drawTexture(DrawContext context, Texture texture, Region drawRegion, Region textureRegion) {
-        drawTexture(context, texture, Color.fromInt(-1), drawRegion, textureRegion);
-    }
-
-    /**
-     * Draws texture in the specified region
-     *
-     * @param context       Draw context
-     * @param texture       Texture
-     * @param color         Color
-     * @param drawRegion    Region to draw
-     * @param textureRegion Region of the texture
-     */
-    public void drawTexture(DrawContext context, Texture texture, Color color, Region drawRegion, Region textureRegion) {
-        RenderSystem.setShaderColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
-        context.drawTexture(texture.getId(),
-                drawRegion.getX(), drawRegion.getY(), drawRegion.getWidth(), drawRegion.getHeight(),
-                textureRegion.getX(), textureRegion.getY(), textureRegion.getWidth(), textureRegion.getHeight(),
-                texture.getSize().getWidth(), texture.getSize().getHeight());
-    }
-
-    /**
-     * Draw Gui Items at the specified position
-     *
-     * @param context Draw context
-     * @param item    Item
-     * @param x       X position
-     * @param y       Y position
-     */
-    public void drawGuiItem(DrawContext context, ItemStack item, int x, int y) {
-        context.drawItem(item, x, y);
-    }
-
-    /**
-     * Fill color in the specified region
-     *
-     * @param context    Draw context
-     * @param color      Color
-     * @param drawRegion Region to draw
-     */
-    public void fill(DrawContext context, Color color, Region drawRegion) {
-        context.fill(drawRegion.getX(), drawRegion.getY(),
-                drawRegion.getX() + drawRegion.getWidth(),
-                drawRegion.getY() + drawRegion.getHeight(),
-                color.toInt());
-    }
-
-    /**
-     * Check is this widget is visible
-     *
-     * @return if this is visible, return true
-     */
-    public boolean isVisible() {
-        return visible;
-    }
-
-    /**
-     * Set the visibility of this widget
-     *
-     * @param visible "true" means "visible"
-     */
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
+    protected RGBColor backgroundColor = RGBColor.fromRGBA(0);
 
     /**
      * If visible == true, this function will call render
      *
      * @param context Draw context
      */
-    public void exec(DrawContext context) {
+    public void renderWidget(DrawContext context) {
         if (visible) {
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+            context.fill(x, y, x + width, y + height, backgroundColor.toRGBA());
             render(context);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         }
@@ -184,9 +72,10 @@ public abstract class Widget {
     /**
      * Get text renderer
      *
-     * @return TextRenderer instance
+     * @return {@link Optional} contains {@link TextRenderer}
      */
-    public static TextRenderer getTextRenderer() {
-        return MinecraftClient.getInstance() == null ? null : MinecraftClient.getInstance().textRenderer;
+    public static Optional<TextRenderer> getTextRenderer() {
+        MinecraftClient client = MinecraftClient.getInstance();
+        return client == null ? Optional.empty() : Optional.of(client.textRenderer);
     }
 }
