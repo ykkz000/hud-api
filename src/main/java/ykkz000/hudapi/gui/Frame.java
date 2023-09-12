@@ -1,10 +1,8 @@
 package ykkz000.hudapi.gui;
 
-import lombok.Getter;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import ykkz000.hudapi.gui.widget.Panel;
 
 /**
@@ -12,10 +10,15 @@ import ykkz000.hudapi.gui.widget.Panel;
  *
  * @author ykkz000
  */
-@Getter
 @Environment(EnvType.CLIENT)
-public class Frame {
-    private final Panel panel = new Panel();
+public class Frame extends Panel {
+    public Frame() {
+        super();
+        this.setX(0);
+        this.setY(0);
+        this.setWidth(getWindowWidth());
+        this.setHeight(getWindowHeight());
+    }
 
     /**
      * Get window width
@@ -35,19 +38,5 @@ public class Frame {
     protected static int getWindowHeight() {
         MinecraftClient client = MinecraftClient.getInstance();
         return client == null ? 0 : client.getWindow().getScaledHeight();
-    }
-
-    /**
-     * Render the Frame
-     *
-     * @param context Draw context
-     * @apiNote The panel in the Frame will always be same size as in Window
-     */
-    public void render(DrawContext context) {
-        panel.setX(0);
-        panel.setY(0);
-        panel.setWidth(getWindowWidth());
-        panel.setHeight(getWindowHeight());
-        panel.renderWidget(context);
     }
 }

@@ -19,19 +19,17 @@ import java.util.List;
 @Environment(EnvType.CLIENT)
 public final class HudApiMain {
     /**
-     * The basic frames, you should allocate a new frame by calling {@link HudApiMain#allocateFrame()} and add your own widget into the frame
+     * The basic frames, you should insert a frame by calling {@link HudApiMain#registerFrame(Frame)} and add your own widget into the frame
      */
     private static final List<Frame> FRAMES = new ArrayList<>();
 
     /**
-     * Allocate a frame. Mods should not use {@link HudApiMain#FRAMES} field directly, please use this method.
+     * Insert a frame. Mods should not use {@link HudApiMain#FRAMES} field directly, please use this method.
      *
-     * @return A new frame
+     * @param frame Frame
      */
-    public static Frame allocateFrame() {
-        Frame frame = new Frame();
+    public static void registerFrame(Frame frame) {
         FRAMES.add(frame);
-        return frame;
     }
 
     /**
